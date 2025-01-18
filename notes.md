@@ -9,3 +9,6 @@ grant all privileges on userservice.* to userservice;
 4) use apache common lang library to generate random string for toekn
 5) ![img_1.png](img_1.png)
 6) ![img_2.png](img_2.png)
+# Test with jwt
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)![img_5.png](img_5.png)
