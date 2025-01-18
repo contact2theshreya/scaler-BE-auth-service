@@ -2,12 +2,15 @@ package dev.shreya.authenticationservice.controllers;
 
 import dev.shreya.authenticationservice.dtos.*;
 import dev.shreya.authenticationservice.models.SessionStatus;
+import dev.shreya.authenticationservice.models.User;
 import dev.shreya.authenticationservice.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -57,11 +60,20 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/validate")
-    public SessionStatus validate(@RequestBody ValidateRequestDto request) {
+    @PostMapping("/validate")
+    public ResponseEntity<ValidateTokenResponseDto> validate(@RequestBody ValidateRequestDto request) {
         System.out.println("Here I am");
 //        return false;
-        return authService.validate(request);
+        Optional<User> userOptional =  authService.validate(request);
+        if(userOptional.isEmpty()) {
+            ValidateTokenResponseDto validateTokenResponseDto = new ValidateTokenResponseDto();
+            validateTokenResponseDto.setSessionStatus(SessionStatus.INVALID);
+            return new ResponseEntity<>(validateTokenResponseDto,HttpStatus.OK);
+        }
+        ValidateTokenResponseDto validateTokenResponseDto = new ValidateTokenResponseDto();
+        validateTokenResponseDto.setSessionStatus(SessionStatus.ACTIVE);
+        validateTokenResponseDto.setUser(userOptional.get());
+        return new ResponseEntity<>(validateTokenResponseDto,HttpStatus.OK);
     }
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestBody LogoutRequestDto request) {
