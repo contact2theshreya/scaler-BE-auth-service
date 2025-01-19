@@ -12,5 +12,13 @@ import lombok.Setter;
 @Setter
 @JsonDeserialize(as = Role.class)
 public class Role extends BaseModel{
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String name;
 }
