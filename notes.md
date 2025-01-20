@@ -36,7 +36,7 @@ https://docs.spring.io/spring-authorization-server/reference/guides/how-to-jpa.h
 
 ## Note
 in mysql every row has size of 16KB thaat is 65,536bytes else jpa will give error
-so one solution to use @Lob as text column in model coz this doesn't count as size of the row
+so one solution to use @Lob as text column not varchar in model coz this doesn't count as size of the row
 Run insertclient test once and then comment out and pust same details in postman and run
 tell spring securith it is safe to convert customuserdetails class in jwt-security restriction
 so use @jsondeserialize-safe to deserialize to json
@@ -51,3 +51,23 @@ decode jwt token
 ![img_17.png](img_17.png)
 ![img_18.png](img_18.png)
 
+## Error and imp points
+1) we are making spring authorization server who will generate token
+2) goggle authzn server will also maintain information about client who is using this
+3) so first create and register client in credential page of google cloud console
+4) we will also store information about client in databse in authorization consent table and client table
+5) client as an application that is gong to use authorization server
+6) postman acts as (client)browser which hits backend
+7) noop means it is stored as a plain text
+8) @commit in test case then data will be saved in clinet table.
+9) jackson to convert obj to json need default constructor
+10) method startrs with get jackson think there is a field associated with that so make a field
+11) if method name is isEnabled() field should be enabled
+12) contact2theshreya(logged in user) gave permission to this clientid .(authorization consent table)
+13) complete jwt is also stored in authorization table
+14) first u have to register a client then only u can use authorization server
+15) at the time client is registerdclient tells what all permission may it ever asked
+16) scope is permission
+17) getprincipal method-login user info
+
+![img_19.png](img_19.png)
